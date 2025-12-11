@@ -1,28 +1,15 @@
 import {
   Button,
-  CheckboxCard,
-  CheckboxGroup,
   CloseButton,
   Drawer,
-  Flex,
   IconButton,
   Portal,
   RadioCard,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
 import { IoFilterOutline } from "react-icons/io5";
-import { useProductStore } from "../store/product";
 
 const Filter = () => {
-  const [filters, setFilters] = React.useState<string>("");
-  const getProducts = useProductStore((state) => state.getProducts);
-
-  // const handleFilterProducts = (values: string[]) => {
-  //   setFilters(values);
-  //   getProducts(filters);
-  // };
-
   const items = [
     { value: "name-asc", title: "NAME (A-Z)" },
     { value: "name-desc", title: "NAME (Z-A)" },
