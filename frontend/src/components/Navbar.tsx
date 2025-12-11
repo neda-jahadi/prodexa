@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   const [colorMode, toggleColorMode] = React.useState(false);
   return (
-    <Container maxW="4xl" px="2">
+    <Container maxW="5xl" px="4" borderBottomWidth="1px" marginBottom={"4"}>
       <Flex h="16" direction={{ base: "column", sm: "row" }} align="center" justify="space-between">
         <Text fontWeight="extrabold">
           <Link to="/">Product Store</Link>

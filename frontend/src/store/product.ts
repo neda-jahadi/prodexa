@@ -16,9 +16,9 @@ interface ProductStore {
   products: Product[];
   setProducts: (products: Product[]) => void;
   createProduct: (newProduct: newProduct) => Promise<{ success: boolean; message: string }>;
-  getProducts: () => void;
+  getProducts: (filters?: string[]) => void;
   deleteProduct: (id: string) => Promise<{success: boolean; message: string }>;
-  updateProduct: (id:string, product: Product) => Promise<{success: boolean, message: string}>
+  updateProduct: (id:string, product: Product) => Promise<{success: boolean, message: string}>;
 }
 
 export const useProductStore = create<ProductStore>((set) => ({
@@ -50,8 +50,15 @@ export const useProductStore = create<ProductStore>((set) => ({
     }
   },
 
-  getProducts: async () => {
-    const res = await fetch("/api/products");
+  getProducts: async (filters?: string[]) => {
+    const limit = 10;
+    const params = new URLSearchParams();
+    params.set("limit", String(limit));
+    if( filters && filters.length > 0 ) {
+      params.set("categories", filters.join(","));
+    }
+
+    const res = await fetch(`/api/products?${params.toString()}`);
     const data = await res.json();
     set({products: data.data});
   },

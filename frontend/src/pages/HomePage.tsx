@@ -1,7 +1,9 @@
 import React from "react";
-import { Box, Container, VStack, Text, SimpleGrid } from "@chakra-ui/react";
+import { Box, Container, Text, SimpleGrid, Flex } from "@chakra-ui/react";
 import { useProductStore } from "../store/product";
 import ProductCard from "../components/ProductCard";
+import { Link } from "react-router-dom";
+import Filter from "../components/Filter";
 
 const HomePage = () => {
   const products = useProductStore((state) => state.products);
@@ -24,14 +26,24 @@ const HomePage = () => {
   }, [getProducts]);
 
   return (
-    <Container maxW="5xl">
-      <VStack>
-        <Text textStyle="2xl" fontWeight="bold">
+    <Container maxW="5xl" marginBlock={"4"}>
+      {products.length !== 0 ? (
+        <Text as="h1" textStyle="4xl" fontWeight="bold" textAlign={"left"}>
           Current Products
         </Text>
-        <Box>{products.length > 0 ? productsView : <Text>No products found</Text>}</Box>
-      </VStack>
-      <Box></Box>
+      ) : (
+        <Box>
+          No products found
+          <Link to="/create">Create one</Link>
+        </Box>
+      )}
+      {products.length > 0 && (
+        <Flex justify="space-between" marginTop={"10"} marginBottom={"3"}>
+          <Text>{products.length} products</Text>
+          <Filter />
+        </Flex>
+      )}
+      <Box>{products.length > 0 && productsView}</Box>
     </Container>
   );
 };
