@@ -8,6 +8,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { IoFilterOutline } from "react-icons/io5";
+import { useProductStore } from "../store/product";
 
 const Filter = () => {
   const items = [
@@ -16,6 +17,13 @@ const Filter = () => {
     { value: "price-asc", title: "LÄGST PRIS" },
     { value: "price-desc", title: "HÖGST PRIS" },
   ];
+
+  const getProducts = useProductStore((state) => state.getProducts);
+
+  const handleSortProducts = (value: string | null) => {
+    if (!value) return;
+    getProducts(value);
+  };
 
   return (
     <Drawer.Root>
@@ -33,7 +41,10 @@ const Filter = () => {
               <Drawer.Title>All filters</Drawer.Title>
             </Drawer.Header>
             <Drawer.Body>
-              <RadioCard.Root onValueChange={(e) => console.log(e.value)}>
+              <RadioCard.Root
+                defaultValue="name-asc"
+                onValueChange={(e) => handleSortProducts(e.value)}
+              >
                 <RadioCard.Label>Sorting</RadioCard.Label>
                 <VStack align="stretch">
                   {items.map((item) => (

@@ -16,7 +16,7 @@ interface ProductStore {
   products: Product[];
   setProducts: (products: Product[]) => void;
   createProduct: (newProduct: newProduct) => Promise<{ success: boolean; message: string }>;
-  getProducts: (filters?: string[]) => void;
+  getProducts: (filters?: string) => void;
   deleteProduct: (id: string) => Promise<{success: boolean; message: string }>;
   updateProduct: (id:string, product: Product) => Promise<{success: boolean, message: string}>;
 }
@@ -50,13 +50,26 @@ export const useProductStore = create<ProductStore>((set) => ({
     }
   },
 
-  getProducts: async (filters?: string[]) => {
-    const limit = 10;
+  getProducts: async (sortOption: string = "name-asc") => {
     const params = new URLSearchParams();
-    params.set("limit", String(limit));
-    if( filters && filters.length > 0 ) {
-      params.set("categories", filters.join(","));
-    }
+    switch (sortOption) {
+    case "name-asc":
+      params.set("sortBy", "name");
+      params.set("sortOrder", "asc");
+      break;
+    case "name-desc":
+      params.set("sortBy", "name");
+      params.set("sortOrder", "desc");
+      break;
+    case "price-asc":
+      params.set("sortBy", "price");
+      params.set("sortOrder", "asc");
+      break;
+    case "price-desc":
+      params.set("sortBy", "price");
+      params.set("sortOrder", "desc");
+      break;
+  }
 
     const res = await fetch(`/api/products?${params.toString()}`);
     const data = await res.json();
