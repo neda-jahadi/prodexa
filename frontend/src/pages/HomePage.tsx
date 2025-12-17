@@ -26,24 +26,22 @@ const HomePage = () => {
   }, [getProducts]);
 
   return (
-    <Container maxW="5xl" marginBlock={"4"}>
-      {products.length !== 0 ? (
+    <Container maxW="5xl" marginBlock={"4"} textAlign={"left"}>
+      <Box marginBottom={"4"}>
         <Text as="h1" textStyle="4xl" fontWeight="bold" textAlign={"left"}>
-          Current Products
+          {products.length !== 0 ? "Current Products" : "No products found"}
         </Text>
-      ) : (
+      </Box>
+      <Filter />
+
+      {products.length > 0 && (
         <Box>
-          No products found
-          <Link to="/create">Create one</Link>
+          <Text textStyle="m" fontWeight="light" textAlign={"right"} marginBottom={"5"}>
+            {products.length} products
+          </Text>
+          {productsView}
         </Box>
       )}
-      {products.length > 0 && (
-        <Flex justify="space-between" marginTop={"10"} marginBottom={"3"}>
-          <Text>{products.length} products</Text>
-          <Filter />
-        </Flex>
-      )}
-      <Box>{products.length > 0 && productsView}</Box>
     </Container>
   );
 };

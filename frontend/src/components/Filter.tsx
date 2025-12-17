@@ -1,28 +1,36 @@
+import React from "react";
 import {
+  Accordion,
   Button,
   CloseButton,
   Drawer,
   IconButton,
   Portal,
   RadioCard,
+  Slider,
+  Span,
+  Text,
   VStack,
 } from "@chakra-ui/react";
 import { IoFilterOutline } from "react-icons/io5";
 import { useProductStore } from "../store/product";
 
 const Filter = () => {
-  const items = [
+  const sortItems = [
     { value: "name-asc", title: "NAME (A-Z)" },
     { value: "name-desc", title: "NAME (Z-A)" },
     { value: "price-asc", title: "LÄGST PRIS" },
     { value: "price-desc", title: "HÖGST PRIS" },
   ];
 
-  const getProducts = useProductStore((state) => state.getProducts);
+  const [sortValue, setSortValue] = React.useState<string>("");
+  const [priceValue, setPriceValue] = React.useState<number[]>([0, 5000]);
 
-  const handleSortProducts = (value: string | null) => {
-    if (!value) return;
-    getProducts(value);
+  const getProducts = useProductStore((state) => state.getProducts);
+  const products = useProductStore((state) => state.products);
+
+  const handleSortProducts = () => {
+    getProducts(sortValue, priceValue);
   };
 
   return (
@@ -41,27 +49,72 @@ const Filter = () => {
               <Drawer.Title>All filters</Drawer.Title>
             </Drawer.Header>
             <Drawer.Body>
-              <RadioCard.Root
-                defaultValue="name-asc"
-                onValueChange={(e) => handleSortProducts(e.value)}
-              >
-                <RadioCard.Label>Sorting</RadioCard.Label>
-                <VStack align="stretch">
-                  {items.map((item) => (
-                    <RadioCard.Item key={item.value} value={item.value}>
-                      <RadioCard.ItemHiddenInput />
-                      <RadioCard.ItemControl>
-                        <RadioCard.ItemText>{item.title}</RadioCard.ItemText>
-                        <RadioCard.ItemIndicator />
-                      </RadioCard.ItemControl>
-                    </RadioCard.Item>
-                  ))}
-                </VStack>
-              </RadioCard.Root>
+              <Accordion.Root collapsible>
+                <Accordion.Item value="sorting">
+                  <Accordion.ItemTrigger>
+                    <Span flex="1">Sorting</Span>
+                    <Accordion.ItemIndicator />
+                  </Accordion.ItemTrigger>
+                  <Accordion.ItemContent>
+                    <Accordion.ItemBody>
+                      <RadioCard.Root
+                        defaultValue="name-asc"
+                        onValueChange={(e) => {
+                          setSortValue(e.value ?? "name-asc");
+                        }}
+                      >
+                        <VStack align="stretch">
+                          {sortItems.map((item) => (
+                            <RadioCard.Item key={item.value} value={item.value}>
+                              <RadioCard.ItemHiddenInput />
+                              <RadioCard.ItemControl>
+                                <RadioCard.ItemText>{item.title}</RadioCard.ItemText>
+                                <RadioCard.ItemIndicator />
+                              </RadioCard.ItemControl>
+                            </RadioCard.Item>
+                          ))}
+                        </VStack>
+                      </RadioCard.Root>
+                    </Accordion.ItemBody>
+                  </Accordion.ItemContent>
+                </Accordion.Item>
+              </Accordion.Root>
+
+              <Accordion.Root collapsible>
+                <Accordion.Item value="price">
+                  <Accordion.ItemTrigger>
+                    <Span flex="1">Price</Span>
+                    <Accordion.ItemIndicator />
+                  </Accordion.ItemTrigger>
+                  <Accordion.ItemContent>
+                    <Accordion.ItemBody>
+                      <Text textAlign="right">
+                        {priceValue[0]} - {priceValue[1]}
+                      </Text>
+                      <Slider.Root
+                        value={priceValue}
+                        min={0}
+                        max={5000}
+                        onValueChange={(e) => {
+                          setPriceValue(e.value);
+                          getProducts(sortValue, e.value);
+                        }}
+                      >
+                        <Slider.Control>
+                          <Slider.Track>
+                            <Slider.Range />
+                          </Slider.Track>
+                          <Slider.Thumbs />
+                        </Slider.Control>
+                      </Slider.Root>
+                    </Accordion.ItemBody>
+                  </Accordion.ItemContent>
+                </Accordion.Item>
+              </Accordion.Root>
             </Drawer.Body>
             <Drawer.Footer>
               <Button variant="outline">Cancel</Button>
-              <Button>SHOW</Button>
+              <Button onClick={handleSortProducts}>SHOW {products.length}</Button>
             </Drawer.Footer>
             <Drawer.CloseTrigger asChild>
               <CloseButton size="sm" />

@@ -21,7 +21,8 @@
     "globals": "^16.5.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
-    "vite": "^7.2.4"
+    "vite": "^7.2.4",
+    "vite-tsconfig-paths": "^6.0.1"
   },
   "dependencies": {
     "@chakra-ui/react": "^3.30.0",
@@ -29,6 +30,8 @@
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "framer-motion": "^12.23.24",
+    "lucide": "^0.561.0",
+    "next-themes": "^0.4.6",
     "product-store": "file:..",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

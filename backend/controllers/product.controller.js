@@ -7,16 +7,25 @@ export const getProducts =  async (req, res) => {
         const {
             sortBy = "name",
             sortOrder = "asc",
+            minPrice = "0",
+            maxPrice = "80000"
         } = req.query;
          const sort = {};
-         const allowedSortFields = ["name", "price"];
-         if (allowedSortFields.includes(sortBy)) {
+         const filter = {};
+
+        if (minPrice != null || maxPrice != null) {
+        filter.price = {};
+        if (minPrice != null) filter.price.$gte = Number(minPrice);
+        if (maxPrice != null) filter.price.$lte = Number(maxPrice);
+        }
+
+        const allowedSortFields = ["name", "price"];
+        if (allowedSortFields.includes(sortBy)) {
             sort[sortBy] = sortOrder === "desc" ? -1 : 1;
         } else {
             sort.name = 1;
         }
-
-        const products = (await Product.find().sort(sort));
+        const products = (await Product.find(filter).sort(sort));
         res.status(200).json({success: true, data: products})
     } catch (error) {
         console.log('Error in fetching products:', error.message);

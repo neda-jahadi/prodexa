@@ -1,29 +1,33 @@
-import React from "react";
-import { Button, Container, Flex, HStack, Text } from "@chakra-ui/react";
-import { CiSquarePlus } from "react-icons/ci";
-import { FaRegSun, FaMoon } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Box, Flex } from "@chakra-ui/react";
+import Logo from "./ui/Logo";
+import MenuLinks from "./ui/MenuLinks";
+import MobileDrawer from "./ui/MobileDrawer";
 
 const Navbar = () => {
-  const [colorMode, toggleColorMode] = React.useState(false);
   return (
-    <Container maxW="5xl" px="4" borderBottomWidth="1px" marginBottom={"4"}>
-      <Flex h="16" direction={{ base: "column", sm: "row" }} align="center" justify="space-between">
-        <Text fontWeight="extrabold">
-          <Link to="/">Product Store</Link>
-        </Text>
-        <HStack>
-          <Link to="/create">
-            <Button>
-              <CiSquarePlus />
-            </Button>
-          </Link>
-          <Button onClick={() => toggleColorMode(!colorMode)}>
-            {colorMode ? <FaRegSun /> : <FaMoon />}
-          </Button>
-        </HStack>
-      </Flex>
-    </Container>
+    <Flex
+      as="nav"
+      align="center"
+      justify="space-between"
+      wrap="wrap"
+      gap={{ base: 8, lg: 16 }}
+      px={{ base: 6, lg: 12 }}
+      py={5}
+      maxW={{ base: "full", xl: "1440px" }}
+      mx="auto"
+    >
+      <Logo />
+
+      {/* Desktop Menu */}
+      <Box display={{ base: "none", md: "block" }}>
+        <MenuLinks />
+      </Box>
+
+      {/* Mobile Drawer */}
+      <Box display={{ base: "block", md: "none" }}>
+        <MobileDrawer />
+      </Box>
+    </Flex>
   );
 };
 
