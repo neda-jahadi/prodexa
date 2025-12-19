@@ -23,7 +23,7 @@ const Filter = () => {
     { value: "price-desc", title: "HÖGST PRIS" },
   ];
 
-  const [sortValue, setSortValue] = React.useState<string>("");
+  const [sortValue, setSortValue] = React.useState<string>("name-asc");
   const [priceValue, setPriceValue] = React.useState<number[]>([0, 5000]);
 
   const getProducts = useProductStore((state) => state.getProducts);
@@ -36,7 +36,7 @@ const Filter = () => {
   return (
     <Drawer.Root>
       <Drawer.Trigger asChild>
-        <IconButton variant="ghost" padding={"3"}>
+        <IconButton variant="subtle" padding={"3"}>
           Filter
           <IoFilterOutline />
         </IconButton>
@@ -61,6 +61,7 @@ const Filter = () => {
                         defaultValue="name-asc"
                         onValueChange={(e) => {
                           setSortValue(e.value ?? "name-asc");
+                          getProducts(e.value ?? "name-asc", priceValue);
                         }}
                       >
                         <VStack align="stretch">
@@ -113,8 +114,12 @@ const Filter = () => {
               </Accordion.Root>
             </Drawer.Body>
             <Drawer.Footer>
-              <Button variant="outline">Cancel</Button>
-              <Button onClick={handleSortProducts}>SHOW {products.length}</Button>
+              <Drawer.CloseTrigger position={"static"} asChild>
+                <Button variant="outline">Cancel</Button>
+              </Drawer.CloseTrigger>
+              <Drawer.CloseTrigger position={"static"} asChild>
+                <Button onClick={handleSortProducts}>SHOW {products.length}</Button>
+              </Drawer.CloseTrigger>
             </Drawer.Footer>
             <Drawer.CloseTrigger asChild>
               <CloseButton size="sm" />

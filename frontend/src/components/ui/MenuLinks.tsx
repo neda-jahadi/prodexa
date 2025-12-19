@@ -1,10 +1,10 @@
-import { HStack, VStack, Link, Button } from "@chakra-ui/react";
+import { HStack, VStack, Button } from "@chakra-ui/react";
+import { NavLink } from "react-router-dom";
 
 const links = [
   { name: "Home", href: "/" },
   { name: "Create product", href: "/create" },
   { name: "Products", href: "/products" },
-  { name: "Contact", href: "#contact" },
 ];
 
 const MenuLinks = ({ isMobile = false }) => {
@@ -13,19 +13,9 @@ const MenuLinks = ({ isMobile = false }) => {
   return (
     <LinkComponent gap={isMobile ? 4 : 8} align="center">
       {links.map((link) => (
-        <Link
-          key={link.name}
-          href={link.href}
-          fontWeight="medium"
-          color="black"
-          _hover={{
-            color: "black",
-            textDecoration: "underline",
-          }}
-          transition="color 0.2s ease"
-        >
+        <NavLink key={link.name} to={link.href}>
           {link.name}
-        </Link>
+        </NavLink>
       ))}
 
       <Button
