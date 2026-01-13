@@ -15,6 +15,7 @@ const Navbar = () => {
       py={5}
       maxW={{ base: "full", xl: "1440px" }}
       mx="auto"
+      borderBottomWidth="1px"
     >
       <Logo />
 

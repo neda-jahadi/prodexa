@@ -9,7 +9,6 @@ type CrumbHandle = {
 
 export default function Breadcrumbs() {
   const matches = useMatches();
-  console.log("Matches are:", matches);
 
   const crumbs = matches
     .map((match) => {
@@ -19,10 +18,9 @@ export default function Breadcrumbs() {
     .filter(Boolean) as Crumb[];
 
   if (crumbs.length === 0) return null;
-  console.log("crumbs are:", crumbs);
 
   return (
-    <Breadcrumb.Root>
+    <Breadcrumb.Root padding="10">
       <Breadcrumb.List>
         {crumbs.map((crumb, index) => {
           const isLast = index === crumbs.length - 1;

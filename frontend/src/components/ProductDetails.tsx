@@ -6,7 +6,7 @@ const ProductDetails = () => {
   const { data: productDetails } = useLoaderData() as ProductDetailsResponse;
 
   return (
-    <Box>
+    <Box py={5}>
       <Image
         src={productDetails.image}
         alt={productDetails.name}
