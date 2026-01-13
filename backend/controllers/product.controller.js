@@ -36,12 +36,19 @@ export const getProducts =  async (req, res) => {
 export const getSingleProduct = async (req, res) => {
     const productId= req.params.id;
 
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+        return res.status(400).json({ success: false, message: "Invalid product id" });
+    }
+
     try{
         const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(404).json({ success: false, message: "Product not found" });
+        }
         res.status(200).json({success: true, data: product})
     } catch (error) {
         console.error('Error in fetching product:', error.message);
-        res.status(500).json({success: false, message: 'Product not found'})
+        res.status(500).json({success: false, message: 'Internal server error'})
     }
 }
 

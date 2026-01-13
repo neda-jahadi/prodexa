@@ -10,9 +10,7 @@ const MobileDrawer = () => {
     <Drawer.Root open={open} onOpenChange={onToggle} size="full">
       <Drawer.Trigger asChild>
         <Button variant="outline" size="sm">
-          <Icon color="blue.600">
-            <CiMenuBurger />
-          </Icon>
+          <CiMenuBurger color="#2563eb" size="18" />
         </Button>
       </Drawer.Trigger>
       <Portal>

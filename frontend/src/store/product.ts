@@ -75,8 +75,6 @@ export const useProductStore = create<ProductStore>((set) => ({
       params.set("sortOrder", "desc");
       break;
   }
-     console.log("FETCH:", `/api/products?${params.toString()}`);
-
     const res = await fetch(`/api/products?${params.toString()}`);
     const data = await res.json();
     set({products: data.data});
